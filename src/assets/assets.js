@@ -72,6 +72,9 @@ import contact_img from './contact_img.png';
 import razorpay_logo from './razorpay_logo.png';
 import stripe_logo from './stripe_logo.png';
 import cross_icon from './cross_icon.png';
+import newari_dress_icon from './newari_dress.png';
+import hero_maicha_icon from './gray_color.png';
+import heroz_img from './hero_img.jpg';
 
 export const assets = {
   logo,
@@ -92,6 +95,9 @@ export const assets = {
   razorpay_logo,
   stripe_logo,
   cross_icon,
+  newari_dress_icon,
+  hero_maicha_icon,
+  heroz_img
 };
 
 export const products1 = [

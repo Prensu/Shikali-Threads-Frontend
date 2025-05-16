@@ -35,7 +35,7 @@ const About = () => {
       <div className="flex flex-col md:flex-row gap-16 my-10">
         {/* Left Image */}
         <motion.img
-          src={assets.about_img}
+          src={assets.newari_dress_icon}
           alt="Shikali Threads"
           className="w-full md:max-w-[450px] shadow-lg rounded-lg"
           initial="hidden"

@@ -1,103 +1,69 @@
-import { useState } from 'react';
-import { motion } from 'framer-motion'; // Framer Motion for smooth transitions
+import { useState } from "react";
+import Title from "../components/Title";
 
-const Login = () => {
-  const [currentState, setCurrentState] = useState('Sign Up');
+function Login() {
+  const [currentState, setCurrentState] = useState("SIGN IN");
+  const titleValue = currentState.split(" ");
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
-    // Handle the form submission logic here (e.g., authentication, etc.)
   };
 
   return (
-    <motion.form
+    <form
       onSubmit={onSubmitHandler}
-      className="flex flex-col items-center w-[90%] sm:max-w-lg m-auto mt-16 gap-6 bg-white p-8 rounded-lg shadow-lg"
-      initial={{ opacity: 0, scale: 0.95 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.5 }}
+      className="flex flex-col items-center w-[90%] sm:max-w-96 m-auto mt-14 gap-4 text-gray-800 "
     >
-      {/* Title Section */}
-      <div className="inline-flex items-center gap-2 mb-4">
-        <motion.p
-          className="font-semibold text-3xl text-gray-800"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.4 }}
-        >
-          {currentState}
-        </motion.p>
-        <motion.hr
-          className="border-none h-[2px] w-16 bg-black"
-          initial={{ width: 0 }}
-          animate={{ width: '100%' }}
-          transition={{ duration: 0.4 }}
-        />
+      <div className="mb-4 text-4xl sm:text-5xl">
+        <Title text1={titleValue[0]} text2={titleValue[1]} />
       </div>
-
-      {/* Input Fields */}
-      <motion.div
-        className="w-full px-3 py-2 flex flex-col gap-6"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.5 }}
-      >
-        {currentState === 'Sign Up' && (
-          <input
-            type="text"
-            className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black"
-            placeholder="Name"
-            required
-          />
+      {currentState === "SIGN IN" ? (
+        ""
+      ) : (
+        <input
+          type="text"
+          className="w-full px-3 py-2 border border-gray-800 outline-none"
+          placeholder="Name"
+          required
+        />
+      )}
+      <input
+        type="email"
+        className="w-full px-3 py-2 border border-gray-800 outline-none"
+        placeholder="Email"
+        required
+      />
+      <input
+        type="password"
+        className="w-full px-3 py-2 border border-gray-800 outline-none"
+        placeholder="Password"
+        required
+      />
+      <div className="flex justify-between w-full text-sm mt-[-8px]">
+        <p className="border-b border-white cursor-pointer hover:border-black ">
+          Forgot Your Password?
+        </p>
+        {currentState === "SIGN IN" ? (
+          <p
+            onClick={() => setCurrentState("SIGN UP")}
+            className="border-b border-white cursor-pointer hover:border-black "
+          >
+            Don&apos;t have an account? Sign Up.
+          </p>
+        ) : (
+          <p
+            onClick={() => setCurrentState("SIGN IN")}
+            className="border-b border-white cursor-pointer hover:border-black "
+          >
+            Already have an account? Sign In.
+          </p>
         )}
-
-        <input
-          type="email"
-          className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black"
-          placeholder="Email"
-          required
-        />
-
-        <input
-          type="password"
-          className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black"
-          placeholder="Password"
-          required
-        />
-
-        {/* Forgot password / Create Account Link */}
-        <div className="w-full flex justify-between text-sm mt-[-8px] text-gray-600">
-          <p className="cursor-pointer hover:text-black">Forgot your password?</p>
-          {currentState === 'Login' ? (
-            <p
-              onClick={() => setCurrentState('Sign Up')}
-              className="cursor-pointer hover:text-black"
-            >
-              Create Account
-            </p>
-          ) : (
-            <p
-              onClick={() => setCurrentState('Login')}
-              className="cursor-pointer hover:text-black"
-            >
-              Login Here
-            </p>
-          )}
-        </div>
-
-        {/* Submit Button */}
-        <motion.button
-          type="submit"
-          className="w-full py-3 text-white bg-black rounded-md hover:bg-gray-800 transition-all duration-300"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.6 }}
-        >
-          {currentState === 'Login' ? 'Sign In' : 'Sign Up'}
-        </motion.button>
-      </motion.div>
-    </motion.form>
+      </div>
+      <button className="w-full py-3 mt-6 font-light text-white bg-black">
+        {currentState === "SIGN IN" ? "Sign In" : "Sign Up"}
+      </button>
+    </form>
   );
-};
+}
 
 export default Login;

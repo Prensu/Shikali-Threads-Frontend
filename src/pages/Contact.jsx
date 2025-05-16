@@ -1,5 +1,4 @@
-import { assets } from '../assets/assets'; 
-import NewsLetterBox from '../Components/NewsLetterBox';
+import { assets } from '../assets/assets';
 import Title from '../Components/Title';
 import { motion } from 'framer-motion'; // Framer Motion for animations
 
@@ -57,7 +56,7 @@ const Contact = () => {
       >
         {/* Embedded Google Map */}
         <motion.div
-          className="w-full sm:max-w-[480px] rounded-lg overflow-hidden shadow-md custom-cursor" // Added class
+          className="w-full sm:max-w-[480px] rounded-lg overflow-hidden shadow-md custom-cursor"
           whileHover={{ scale: 1.03 }}
           variants={itemVariants}
         >
@@ -72,9 +71,9 @@ const Contact = () => {
           ></iframe>
         </motion.div>
 
-        {/* Contact Info */}
+        {/* Contact Info without the box */}
         <motion.div
-          className="flex flex-col justify-center items-start gap-6 bg-gray-50 p-8 rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300"
+          className="flex flex-col justify-center items-start gap-6"
           variants={containerVariants}
         >
           <motion.div variants={itemVariants}>
@@ -113,11 +112,6 @@ const Contact = () => {
             Explore Best Suited Cultural Clothes
           </motion.button>
         </motion.div>
-      </motion.div>
-
-      {/* Newsletter Box */}
-      <motion.div variants={itemVariants}>
-        <NewsLetterBox />
       </motion.div>
     </motion.div>
   );

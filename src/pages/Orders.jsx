@@ -15,15 +15,15 @@ const Orders = () => {
   const currentDate = formatDate(new Date());
 
   return (
-    <div className="pt-16 border-t">
-      <div className="mb-3 text-2xl">
+    <div className="pt-16 border-t container mx-auto px-4">
+      <div className="mb-6 text-3xl font-semibold text-center">
         <Title text1={'MY'} text2={'ORDERS'} />
       </div>
 
       {orders.length === 0 ? (
-        <p className="text-gray-500">You have no orders.</p>
+        <p className="text-gray-500 text-center text-lg">You have no orders.</p>
       ) : (
-        <div>
+        <div className="space-y-6">
           {orders.map((order, index) => {
             const productData = products.find(
               (product) => product._id === order._id
@@ -32,17 +32,17 @@ const Orders = () => {
             return (
               <div
                 key={index}
-                className="py-4 border-t border-b text-gray-700 flex flex-col md:flex-row md:items-center md:justify-between g4"
+                className="p-6 border rounded-lg shadow-lg bg-white flex flex-col md:flex-row md:items-center md:justify-between gap-6"
               >
                 <div className="flex items-start gap-6">
                   <img
                     src={productData.image[0]}
                     alt=""
-                    className="w-16 sm:w-20"
+                    className="w-20 h-20 rounded-lg object-cover"
                   />
 
                   <div>
-                    <p className="sm:text-base font-medium">
+                    <p className="text-lg font-medium text-gray-900">
                       {productData.name}
                     </p>
 
@@ -54,18 +54,21 @@ const Orders = () => {
                       <p>Quantity: {order.quantity}</p>
                       <p>Size: {order.size}</p>
                     </div>
-                    <p className="mt-2">
-                      Date: <span className="text-gray-400">{currentDate}</span>
+                    <p className="mt-2 text-gray-600">
+                      Date: <span className="font-semibold">{currentDate}</span>
+                    </p>
+                    <p className="mt-2 text-gray-600">
+                      Payment Method: <span className="font-semibold">{order.paymentMethod}</span>
                     </p>
                   </div>
                 </div>
 
-                <div className="flex justify-between md:w-1/2">
+                <div className="flex flex-col md:flex-row md:items-center md:justify-between w-full md:w-1/2 gap-4">
                   <div className="flex items-center gap-2">
-                    <p className="min-w-2 h-2 rounded-full bg-green-400"></p>
-                    <p className="text-sm md:text-base">Ready to ship</p>
+                    <p className="w-3 h-3 rounded-full bg-green-500"></p>
+                    <p className="text-sm md:text-base text-gray-800 font-semibold">Ready to ship</p>
                   </div>
-                  <button className="border px-4 py-2 text-sm font-medium rounded-sm text-gray-700">
+                  <button className="bg-black text-white px-6 py-3 text-sm font-medium rounded-lg shadow-md hover:shadow-lg transition duration-300">
                     Track Order
                   </button>
                 </div>

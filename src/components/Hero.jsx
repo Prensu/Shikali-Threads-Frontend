@@ -37,7 +37,7 @@ const Hero = () => {
 
       {/* Hero Right Side */}
       <motion.img
-        src={assets.hero_img}
+        src={assets.hero_maicha_icon}
         alt=""
         className="w-full sm:w-1/2"
         initial={{ opacity: 0, x: 50 }}

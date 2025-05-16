@@ -20,55 +20,26 @@ const policyData = [
   },
 ];
 
-// Reusable Card Component with Mouse Animation
+// Reusable Card Component with Professional Hover Effect
 const PolicyCard = ({ icon, title, description }) => {
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
-  const [isHovered, setIsHovered] = useState(false);
-
-  const handleMouseMove = (e) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    setMousePos({
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top,
-    });
-  };
-
   return (
     <motion.div
-      className="group relative bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-shadow duration-300 flex flex-col items-center overflow-hidden"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      onMouseMove={handleMouseMove}
+      className="group relative bg-white rounded-xl p-6 shadow-md hover:shadow-xl transition-shadow duration-300 flex flex-col items-center overflow-hidden border border-gray-200 hover:border-gray-400"
     >
-      {/* Border Animation */}
-      <div className="absolute inset-0 border-2 border-transparent rounded-xl group-hover:border-indigo-600 transition-all duration-500"></div>
-      <div className="absolute inset-0 z-0 bg-gradient-to-r from-indigo-500 via-pink-500 to-yellow-500 opacity-0 group-hover:opacity-100 group-hover:animate-pulse rounded-xl pointer-events-none"></div>
-
-      {/* Mouse Animation */}
-      {isHovered && (
-        <motion.div
-          className="absolute w-40 h-40 bg-indigo-200 opacity-50 rounded-full pointer-events-none"
-          style={{
-            top: mousePos.y - 80,
-            left: mousePos.x - 80,
-          }}
-          initial={{ scale: 0 }}
-          animate={{ scale: 1 }}
-          exit={{ scale: 0 }}
-          transition={{ duration: 0.3, ease: "easeOut" }}
-        />
-      )}
-
+      {/* Icon */}
       <motion.img
         src={icon}
         alt={title}
-        className="w-14 mb-5 relative z-10 group-hover:scale-125 transition-transform duration-300"
-        whileHover={{ rotate: 10 }}
+        className="w-14 mb-5 group-hover:scale-110 transition-transform duration-300"
       />
-      <h3 className="text-lg font-semibold text-gray-800 group-hover:text-indigo-600 transition-colors duration-300 relative z-10">
+
+      {/* Title */}
+      <h3 className="text-lg font-semibold text-gray-800 group-hover:text-gray-900 transition-colors duration-300">
         {title}
       </h3>
-      <p className="text-sm text-gray-500 group-hover:text-gray-700 transition-colors duration-300 relative z-10">
+
+      {/* Description */}
+      <p className="text-sm text-gray-600 group-hover:text-gray-800 transition-colors duration-300">
         {description}
       </p>
     </motion.div>
@@ -77,7 +48,7 @@ const PolicyCard = ({ icon, title, description }) => {
 
 const OurPolicy = () => {
   return (
-    <section className="py-20 bg-gradient-to-b from-gray-100 to-white">
+    <section className="py-20 bg-gray-50">
       <h2 className="text-center text-2xl sm:text-3xl font-bold text-gray-800 mb-12">
         Our Policies
       </h2>
