@@ -1,93 +1,79 @@
-import PropTypes from 'prop-types';
-import { createContext, useState } from 'react';
-import { products } from '../assets/assets';
-import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
-
+import { createContext, useEffect, useState } from "react";
+import { products } from "../assets/assets";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 export const ShopContext = createContext();
-const ShopContextProvider = ({ children }) => {
-  const currency = ' NPR   ';
-  const delivery_fee = 10;
 
-  const [search, setSearch] = useState('');
+const ShopContextProvider = ({ children }) => {
+  const currency = "NRS. ";
+  const delivery_fee = 10;
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
+  const [search, setSearch] = useState("");
   const [showSearch, setShowSearch] = useState(false);
   const [cartItems, setCartItems] = useState({});
-  const [orders, setOrders] = useState([]); // New state to hold orders
-  const navigate = useNavigate(); // to navigate to different pages
+  const [products, setProducts] = useState([]);
+  const navigate = useNavigate();
 
   const addToCart = async (itemId, size) => {
-    if (!size) {
-      toast.error('Please select a size');
-      return;
-    }
-
     let cartData = structuredClone(cartItems);
-
     if (cartData[itemId]) {
-      cartData[itemId][size]
-        ? (cartData[itemId][size] += 1)
-        : (cartData[itemId][size] = 1);
+      if (cartData[itemId][size]) {
+        cartData[itemId][size] += 1;
+      } else {
+        cartData[itemId][size] = 1;
+      }
     } else {
       cartData[itemId] = {};
       cartData[itemId][size] = 1;
     }
-
     setCartItems(cartData);
-  };
-
-  const addOrder = () => {
-    let tempOrders = structuredClone(orders);
-    let newOrder = [];
-
-    for (const item in cartItems) {
-      for (const size in cartItems[item]) {
-        if (cartItems[item][size] > 0) {
-          newOrder.push({
-            _id: item,
-            size,
-            quantity: cartItems[item][size],
-          });
-        }
-      }
-    }
-    setOrders([...tempOrders, ...newOrder]);
-    //setCartItems({}); // Clear cart after placing the order
   };
 
   const getCartCount = () => {
     let totalCount = 0;
-    for (const item in cartItems) {
-      for (const size in cartItems[item]) {
-        if (cartItems[item][size] > 0) {
-          totalCount += cartItems[item][size];
-        }
+    for (const items in cartItems) {
+      for (const item in cartItems[items]) {
+        try {
+          if (cartItems[items][item] > 0) {
+            totalCount += cartItems[items][item];
+          }
+        } catch (error) {}
       }
     }
     return totalCount;
   };
 
-  const updateQuantity = async (itemId, size, quantity) => {
+  const updateQuantity = (itemId, size, quantity) => {
     let cartData = structuredClone(cartItems);
     cartData[itemId][size] = quantity;
     setCartItems(cartData);
   };
 
-  const getCartAmount = () => {
+  let getCartAmount = () => {
     let totalAmount = 0;
-    for (const item in cartItems) {
-      const productInfo = products.find((product) => product._id === item);
-      for (const size in cartItems[item]) {
+    for (const items in cartItems) {
+      let itemInfo = products.find((product) => product._id === items);
+      for (const item in cartItems[items]) {
         try {
-          if (cartItems[item][size] > 0) {
-            totalAmount += productInfo.price * cartItems[item][size];
+          if (cartItems[items][item] > 0) {
+            totalAmount += itemInfo.price * cartItems[items][item];
           }
-        } catch (error) {
-          console.log('error', error);
-        }
+        } catch (error) {}
       }
     }
     return totalAmount;
   };
+
+  const getProductsData = async () => { 
+    try {
+      const response = await axios.get(`${backendUrl}/api/product/list`);
+      if (response.data.success) {
+        setProducts(response.data.products);
+      }
+    } catch (error) {
+      console.error("Error fetching products:", error);
+    }
+  }
 
   const value = {
     products,
@@ -102,15 +88,10 @@ const ShopContextProvider = ({ children }) => {
     getCartCount,
     updateQuantity,
     getCartAmount,
-    addOrder, // Add this to allow placing orders
-    orders,
     navigate,
+    backendUrl
   };
-
   return <ShopContext.Provider value={value}>{children}</ShopContext.Provider>;
 };
 
-ShopContextProvider.propTypes = {
-  children: PropTypes.node.isRequired,
-};
 export default ShopContextProvider;
