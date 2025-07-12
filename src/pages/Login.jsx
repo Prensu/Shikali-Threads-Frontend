@@ -1,12 +1,43 @@
 import { useState } from "react";
 import Title from "../components/Title";
-
 function Login() {
   const [currentState, setCurrentState] = useState("SIGN IN");
   const titleValue = currentState.split(" ");
 
+  const {token,setToken,navigate,backendUrl} = useContext(ShopContext);
+
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const onSubmitHandler = (e) => {
     e.preventDefault();
+    try{
+      if (currentState === "SIGN IN") {
+        axios
+          .post(`${backendUrl}/api/user/login`, {
+            email,
+            password,
+          })
+          .then((res) => {
+            setToken(res.data.token);
+            localStorage.setItem("token", res.data.token);
+            navigate("/");
+          });
+      } else {
+        axios
+          .post(`${backendUrl}/api/user/register`, {
+            name,
+            email,
+            password,
+          })
+          .then((res) => {
+            setToken(res.data.token);
+            localStorage.setItem("token", res.data.token);
+            navigate("/");
+          });
+      }
+    }
+    }
   };
 
   return (
@@ -21,6 +52,8 @@ function Login() {
         ""
       ) : (
         <input
+          onChange={(e) => setName(e.target.value)}
+          value={name}
           type="text"
           className="w-full px-3 py-2 border border-gray-800 outline-none"
           placeholder="Name"
