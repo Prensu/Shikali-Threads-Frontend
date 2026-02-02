@@ -1,11 +1,11 @@
-import { useContext, useEffect, useState } from 'react';
-import { ShopContext } from '../Context/ShopContext';
-import Title from '../Components/Title';
-import { assets } from '../assets/assets';
-import CartTotal from '../Components/CartTotal';
+import { useContext, useEffect, useState } from "react";
+import { ShopContext } from "../context/ShopContext";
+import Title from "../components/Title";
+import { assets } from "../assets/assets";
+import CartTotal from "../components/CartTotal";
 
 const Cart = () => {
-  const { products, currency, cartItems, updateQuantity, navigate, addOrder } =
+  const { products, currency, cartItems, updateQuantity, navigate } =
     useContext(ShopContext);
   const [cartData, setCartData] = useState([]);
 
@@ -28,7 +28,7 @@ const Cart = () => {
   return (
     <div className="pt-14 border-t">
       <div className="mb-3 text-2xl">
-        <Title text1={'YOUR'} text2={'CART'} />
+        <Title text1={"YOUR"} text2={"CART"} />
       </div>
 
       {/* Cart Items      */}
@@ -36,8 +36,12 @@ const Cart = () => {
       <div>
         {cartData.map((item, index) => {
           const productsData = products.find(
-            (product) => product._id === item._id
+            (product) => product._id === item._id,
           );
+
+          if (!productsData) {
+            return null;
+          }
 
           return (
             <div
@@ -69,13 +73,11 @@ const Cart = () => {
 
               <input
                 onChange={(e) => {
-                  e.target.value === '' || e.target.value < 0
-                    ? null
-                    : updateQuantity(
-                        item._id,
-                        item.size,
-                        Number(e.target.value)
-                      );
+                  const nextValue = Number(e.target.value);
+                  if (!Number.isFinite(nextValue) || nextValue < 1) {
+                    return;
+                  }
+                  updateQuantity(item._id, item.size, nextValue);
                 }}
                 className="border  max-w-10 sm:max-w-20 px-1 sm:px-2 py-1 "
                 type="number"
@@ -99,10 +101,7 @@ const Cart = () => {
 
           <div className="w-full text-end">
             <button
-              onClick={() => {
-                addOrder(); // Call addOrder to move items to orders state
-                navigate('/place-order');
-              }}
+              onClick={() => navigate("/place-order")}
               className="my-8 px-8 py-3 bg-black text-white text-sm"
             >
               PROCEED TO CHECKOUT

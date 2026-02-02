@@ -1,8 +1,8 @@
-import PropTypes from 'prop-types';
-import { ShopContext } from '../Context/ShopContext';
-import { useContext, useEffect, useState } from 'react';
-import Title from './Title';
-import ProductdItem from './ProductItem';
+import PropTypes from "prop-types";
+import { ShopContext } from "../context/ShopContext";
+import { useContext, useEffect, useState } from "react";
+import Title from "./Title";
+import ProductItem from "./ProductItem";
 
 const RelatedProducts = ({ category, subCategory }) => {
   const { products } = useContext(ShopContext);
@@ -15,7 +15,7 @@ const RelatedProducts = ({ category, subCategory }) => {
 
       productsCopy = productsCopy.filter(
         (product) =>
-          product.category === category && product.subCategory === subCategory
+          product.category === category && product.subCategory === subCategory,
       );
 
       setRelatedProd(productsCopy.slice(0, 5));
@@ -25,12 +25,12 @@ const RelatedProducts = ({ category, subCategory }) => {
   return (
     <div className="my-24">
       <div className="text-center text-2xl py-2">
-        <Title text1={'RELATED'} text2={'PRODUCTS'} />
+        <Title text1={"RELATED"} text2={"PRODUCTS"} />
       </div>
 
       <div className="grid grid-cols-2  sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 gap-y-6 ">
         {relatedProd.map((item, index) => (
-          <ProductdItem
+          <ProductItem
             key={index}
             id={item._id}
             name={item.name}

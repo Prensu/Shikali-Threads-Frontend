@@ -1,25 +1,24 @@
-import { useContext, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { ShopContext } from '../Context/ShopContext';
-import { assets } from '../assets/assets';
-import RelatedProducts from '../Components/RelatedProducts';
+import { useContext, useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { ShopContext } from "../context/ShopContext";
+import { assets } from "../assets/assets";
+import RelatedProducts from "../components/RelatedProducts";
 
 const Product = () => {
   const { productId } = useParams();
   const { products, currency, addToCart } = useContext(ShopContext);
   const [productsData, setProductsData] = useState(false);
-  const [image, setImage] = useState('');
-  const [size, setSize] = useState('');
+  const [image, setImage] = useState("");
+  const [size, setSize] = useState("");
 
-  const fetchProductsData = async () => {
-    products.map((product) => {
-      if (product._id === productId) {
-        setProductsData(product);
-        setImage(product.image[0]);
-
-        return null;
-      }
-    });
+  const fetchProductsData = () => {
+    const matchedProduct = products.find(
+      (product) => product._id === productId,
+    );
+    if (matchedProduct) {
+      setProductsData(matchedProduct);
+      setImage(matchedProduct.image?.[0] || "");
+    }
   };
 
   useEffect(() => {
@@ -88,7 +87,7 @@ const Product = () => {
                     setSize(item);
                   }}
                   className={`w-8 h-8 border bg-gray-100 flex items-center justify-center cursor-pointer
-                  ${item === size ? 'border-orange-500' : ''}
+                  ${item === size ? "border-orange-500" : ""}
                   `}
                 >
                   {item}

@@ -1,13 +1,13 @@
 import { useContext, useState } from "react";
 import { assets } from "../assets/assets";
-import CartTotal from "../Components/CartTotal";
-import Title from "../Components/Title";
-import { ShopContext } from "../Context/ShopContext";
+import CartTotal from "../components/CartTotal";
+import Title from "../components/Title";
+import { ShopContext } from "../context/ShopContext";
 import { motion } from "framer-motion";
 
 const PlaceOrder = () => {
   const [paymentMethod, setPaymentMethod] = useState("cod");
-  const { navigate } = useContext(ShopContext);
+  const { navigate, placeOrder } = useContext(ShopContext);
 
   return (
     <motion.div
@@ -19,7 +19,7 @@ const PlaceOrder = () => {
       {/* Left Side */}
       <div className="flex flex-col gap-6 w-full sm:max-w-[480px]">
         <Title text1="DELIVERY" text2="INFORMATION" className="text-2xl" />
-        
+
         <div className="space-y-4">
           <div className="flex flex-col sm:flex-row gap-4">
             <input
@@ -38,40 +38,16 @@ const PlaceOrder = () => {
             placeholder="Email Address"
             className="input-field"
           />
-          <input
-            type="text"
-            placeholder="Street"
-            className="input-field"
-          />
+          <input type="text" placeholder="Street" className="input-field" />
           <div className="flex flex-col sm:flex-row gap-4">
-            <input
-              type="text"
-              placeholder="City"
-              className="input-field"
-            />
-            <input
-              type="text"
-              placeholder="State"
-              className="input-field"
-            />
+            <input type="text" placeholder="City" className="input-field" />
+            <input type="text" placeholder="State" className="input-field" />
           </div>
           <div className="flex flex-col sm:flex-row gap-4">
-            <input
-              type="text"
-              placeholder="Zipcode"
-              className="input-field"
-            />
-            <input
-              type="text"
-              placeholder="Country"
-              className="input-field"
-            />
+            <input type="text" placeholder="Zipcode" className="input-field" />
+            <input type="text" placeholder="Country" className="input-field" />
           </div>
-          <input
-            type="number"
-            placeholder="Phone"
-            className="input-field"
-          />
+          <input type="number" placeholder="Phone" className="input-field" />
         </div>
       </div>
 
@@ -98,9 +74,15 @@ const PlaceOrder = () => {
                   }`}
                 ></div>
                 {method === "cod" ? (
-                  <p className="text-gray-500 text-sm font-medium">CASH ON DELIVERY</p>
+                  <p className="text-gray-500 text-sm font-medium">
+                    CASH ON DELIVERY
+                  </p>
                 ) : (
-                  <img className="h-8" src={assets[`${method}_logo`]} alt={method} />
+                  <img
+                    className="h-8"
+                    src={assets[`${method}_logo`]}
+                    alt={method}
+                  />
                 )}
               </div>
             ))}
@@ -110,7 +92,10 @@ const PlaceOrder = () => {
         {/* Place Order Button */}
         <div className="w-full text-end mt-12">
           <button
-            onClick={() => navigate("/orders")}
+            onClick={() => {
+              placeOrder(paymentMethod);
+              navigate("/orders");
+            }}
             className="bg-black text-white px-10 py-4 text-sm font-semibold rounded-lg shadow-lg hover:shadow-black transition-all duration-300"
           >
             PLACE ORDER

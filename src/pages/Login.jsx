@@ -1,42 +1,43 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
+import axios from "axios";
 import Title from "../components/Title";
+import { ShopContext } from "../context/ShopContext";
+
 function Login() {
   const [currentState, setCurrentState] = useState("SIGN IN");
   const titleValue = currentState.split(" ");
 
-  const {token,setToken,navigate,backendUrl} = useContext(ShopContext);
+  const { setToken, navigate, backendUrl } = useContext(ShopContext);
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const onSubmitHandler = (e) => {
+
+  const onSubmitHandler = async (e) => {
     e.preventDefault();
-    try{
-      if (currentState === "SIGN IN") {
-        axios
-          .post(`${backendUrl}/api/user/login`, {
-            email,
-            password,
-          })
-          .then((res) => {
-            setToken(res.data.token);
-            localStorage.setItem("token", res.data.token);
-            navigate("/");
-          });
-      } else {
-        axios
-          .post(`${backendUrl}/api/user/register`, {
-            name,
-            email,
-            password,
-          })
-          .then((res) => {
-            setToken(res.data.token);
-            localStorage.setItem("token", res.data.token);
-            navigate("/");
-          });
+
+    try {
+      if (!backendUrl) {
+        throw new Error("Backend URL is not configured.");
       }
-    }
+      const endpoint = currentState === "SIGN IN" ? "login" : "register";
+      const payload =
+        currentState === "SIGN IN"
+          ? { email, password }
+          : { name, email, password };
+
+      const response = await axios.post(
+        `${backendUrl}/api/user/${endpoint}`,
+        payload,
+      );
+
+      if (response.data?.token) {
+        setToken(response.data.token);
+        localStorage.setItem("token", response.data.token);
+        navigate("/");
+      }
+    } catch (error) {
+      console.error("Authentication error:", error);
     }
   };
 
@@ -65,12 +66,16 @@ function Login() {
         className="w-full px-3 py-2 border border-gray-800 outline-none"
         placeholder="Email"
         required
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
       />
       <input
         type="password"
         className="w-full px-3 py-2 border border-gray-800 outline-none"
         placeholder="Password"
         required
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
       />
       <div className="flex justify-between w-full text-sm mt-[-8px]">
         <p className="border-b border-white cursor-pointer hover:border-black ">

@@ -1,7 +1,7 @@
-import { motion } from 'framer-motion';
-import { assets } from '../assets/assets';
-import NewsLetterBox from '../Components/NewsLetterBox';
-import Title from '../Components/Title';
+import { motion } from "framer-motion";
+import { assets } from "../assets/assets";
+import NewsLetterBox from "../components/NewsLetterBox";
+import Title from "../components/Title";
 
 const About = () => {
   // Animation Variants
@@ -29,7 +29,7 @@ const About = () => {
         variants={fadeInUp}
         transition={{ duration: 0.6 }}
       >
-        <Title text1={'ABOUT'} text2={'US'} />
+        <Title text1={"ABOUT"} text2={"US"} />
       </motion.div>
 
       <div className="flex flex-col md:flex-row gap-16 my-10">
@@ -55,8 +55,8 @@ const About = () => {
           transition={{ duration: 0.8 }}
         >
           <p>
-            Shikali Threads, situated in the heart of Bhainsepati, Lalitpur, is a
-            celebration of Nepali heritage and culture. We specialize in
+            Shikali Threads, situated in the heart of Bhainsepati, Lalitpur, is
+            a celebration of Nepali heritage and culture. We specialize in
             providing a wide range of traditional Nepali clothing and cultural
             wardrobes that reflect the rich diversity of Nepal's ethnic groups.
           </p>
@@ -84,26 +84,26 @@ const About = () => {
         variants={fadeInUp}
         transition={{ duration: 0.6 }}
       >
-        <Title text1={'WHY'} text2={'CHOOSE US'} />
+        <Title text1={"WHY"} text2={"CHOOSE US"} />
       </motion.div>
 
       <div className="flex flex-col md:flex-row mb-20 text-sm gap-4">
         {/* Cards with Hover Animations */}
         {[
           {
-            title: 'Authenticity',
+            title: "Authenticity",
             description:
-              'Our products are made with precision and care, ensuring that every item embodies the essence of Nepali tradition and culture.',
+              "Our products are made with precision and care, ensuring that every item embodies the essence of Nepali tradition and culture.",
           },
           {
-            title: 'Variety',
+            title: "Variety",
             description:
-              'We offer a diverse collection of cultural outfits from different ethnicities across Nepal, catering to your needs for both daily wear and special occasions.',
+              "We offer a diverse collection of cultural outfits from different ethnicities across Nepal, catering to your needs for both daily wear and special occasions.",
           },
           {
-            title: 'Exceptional Customer Service',
+            title: "Exceptional Customer Service",
             description:
-              'Our dedicated team is here to ensure you find the perfect piece that resonates with your style and cultural identity.',
+              "Our dedicated team is here to ensure you find the perfect piece that resonates with your style and cultural identity.",
           },
         ].map((item, index) => (
           <motion.div

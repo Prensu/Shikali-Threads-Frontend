@@ -1,28 +1,30 @@
-import { useContext, useEffect, useState } from 'react';
-import { ShopContext } from '../Context/ShopContext';
-import Title from './Title';
-import ProductItem from './ProductItem';
+import { useContext, useEffect, useState } from "react";
+import { ShopContext } from "../context/ShopContext";
+import Title from "./Title";
+import ProductItem from "./ProductItem";
 
 const BestSeller = () => {
   const { products } = useContext(ShopContext);
   const [bestSeller, setBestSeller] = useState([]);
 
-  console.log(bestSeller);
-
   useEffect(() => {
-    if (products) {
+    if (products && products.length > 0) {
       const bestProduct = products.filter((product) => product.bestseller);
       setBestSeller(bestProduct.slice(0, 5));
+    } else {
+      setBestSeller([]);
     }
-  }, []);
+  }, [products]);
 
   return (
     <div className="my-10">
       <div className="text-center text-3xl py-8">
-        <Title text1={'BEST'} text2={'SELLERS'} />
+        <Title text1={"BEST"} text2={"SELLERS"} />
         <p className="w-3/4 m-auto text-xs sm:text-sm md:text-base text-gray-600">
-        Discover our best-selling traditional Nepali attire and accessories that everyone loves.
-        From elegant sari haku patasi to timeless daura suruwal and dhaka topi, explore the most cherished items from our collection.
+          Discover our best-selling traditional Nepali attire and accessories
+          that everyone loves. From elegant sari haku patasi to timeless daura
+          suruwal and dhaka topi, explore the most cherished items from our
+          collection.
         </p>
       </div>
 

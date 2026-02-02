@@ -1,5 +1,5 @@
 import { createContext, useEffect, useState } from "react";
-import { products } from "../assets/assets";
+import { products1 } from "../assets/assets";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 export const ShopContext = createContext();
@@ -12,10 +12,14 @@ const ShopContextProvider = ({ children }) => {
   const [showSearch, setShowSearch] = useState(false);
   const [cartItems, setCartItems] = useState({});
   const [products, setProducts] = useState([]);
+  const [orders, setOrders] = useState([]);
   const [token, setToken] = useState("");
   const navigate = useNavigate();
 
   const addToCart = async (itemId, size) => {
+    if (!size) {
+      return;
+    }
     let cartData = structuredClone(cartItems);
     if (cartData[itemId]) {
       if (cartData[itemId][size]) {
@@ -53,7 +57,10 @@ const ShopContextProvider = ({ children }) => {
   let getCartAmount = () => {
     let totalAmount = 0;
     for (const items in cartItems) {
-      let itemInfo = products.find((product) => product._id === items);
+      const itemInfo = products.find((product) => product._id === items);
+      if (!itemInfo) {
+        continue;
+      }
       for (const item in cartItems[items]) {
         try {
           if (cartItems[items][item] > 0) {
@@ -65,16 +72,62 @@ const ShopContextProvider = ({ children }) => {
     return totalAmount;
   };
 
-  const getProductsData = async () => { 
+  const getProductsData = async () => {
     try {
+      if (!backendUrl) {
+        setProducts(products1);
+        return;
+      }
+
       const response = await axios.get(`${backendUrl}/api/product/list`);
-      if (response.data.success) {
+      if (response.data.success && Array.isArray(response.data.products)) {
         setProducts(response.data.products);
+      } else {
+        setProducts(products1);
       }
     } catch (error) {
       console.error("Error fetching products:", error);
+      setProducts(products1);
     }
-  }
+  };
+
+  const collectOrdersFromCart = (paymentMethod = "cod") => {
+    const items = [];
+    for (const productId in cartItems) {
+      const sizes = cartItems[productId];
+      for (const size in sizes) {
+        if (sizes[size] > 0) {
+          items.push({
+            _id: productId,
+            size,
+            quantity: sizes[size],
+            paymentMethod,
+          });
+        }
+      }
+    }
+    return items;
+  };
+
+  const placeOrder = (paymentMethod = "cod") => {
+    const newOrders = collectOrdersFromCart(paymentMethod);
+    if (newOrders.length === 0) {
+      return;
+    }
+    setOrders((prev) => [...prev, ...newOrders]);
+    setCartItems({});
+  };
+
+  useEffect(() => {
+    getProductsData();
+  }, [backendUrl]);
+
+  useEffect(() => {
+    const savedToken = localStorage.getItem("token");
+    if (savedToken) {
+      setToken(savedToken);
+    }
+  }, []);
 
   const value = {
     products,
@@ -89,10 +142,12 @@ const ShopContextProvider = ({ children }) => {
     getCartCount,
     updateQuantity,
     getCartAmount,
+    placeOrder,
+    orders,
     navigate,
     backendUrl,
     token,
-    setToken
+    setToken,
   };
   return <ShopContext.Provider value={value}>{children}</ShopContext.Provider>;
 };

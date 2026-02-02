@@ -1,13 +1,13 @@
-import { assets } from '../assets/assets';
-import Title from '../Components/Title';
-import { motion } from 'framer-motion'; // Framer Motion for animations
+import { assets } from "../assets/assets";
+import Title from "../components/Title";
+import { motion } from "framer-motion";
 
 const Contact = () => {
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
       left: 0,
-      behavior: 'smooth',
+      behavior: "smooth",
     });
   };
 
@@ -19,7 +19,7 @@ const Contact = () => {
       y: 0,
       transition: {
         duration: 0.8,
-        ease: 'easeInOut',
+        ease: "easeInOut",
         staggerChildren: 0.2,
       },
     },
@@ -30,7 +30,7 @@ const Contact = () => {
     visible: {
       opacity: 1,
       scale: 1,
-      transition: { duration: 0.6, ease: 'easeOut' },
+      transition: { duration: 0.6, ease: "easeOut" },
     },
   };
 
@@ -46,7 +46,7 @@ const Contact = () => {
         className="to-current text-2xl pt-10 border-t"
         variants={itemVariants}
       >
-        <Title text1={'CONTACT'} text2={'US'} />
+        <Title text1={"CONTACT"} text2={"US"} />
       </motion.div>
 
       {/* Main Contact Section */}
@@ -90,12 +90,15 @@ const Contact = () => {
               Contact No: <span className="text-gray-500">+977 9869221606</span>
             </p>
             <p className="text-lg text-gray-800 mt-1">
-              Email: <span className="text-gray-500">ShikaliThreads@gmail.com</span>
+              Email:{" "}
+              <span className="text-gray-500">ShikaliThreads@gmail.com</span>
             </p>
           </motion.div>
 
           <motion.div variants={itemVariants}>
-            <p className="font-semibold text-gray-700">Shopping at Shikali Threads</p>
+            <p className="font-semibold text-gray-700">
+              Shopping at Shikali Threads
+            </p>
             <p className="text-gray-600 mt-1">
               Explore different rich cultural dresses of Nepal
             </p>
